@@ -48,15 +48,15 @@ This is a simple web application that allows users to search for GitHub profiles
 ### Folder Structure
 
 /github-user-search
-
 │── /css
-│   ├── style.css
-  
+│   ├── style.css  # Styles for the UI
 │── /dist
-    ─ index.js  
-│── /src├── index.ts 
+│   ├── index.js  # Compiled TypeScript
+│── /src
+│   ├── index.ts  # Main TypeScript file
+│── index.html  # Main HTML file
+│── README.md  # Project Documentation
+│── package.json  # Dependencies and scripts
+│── tsconfig.json  # TypeScript configuration
 
-│── index.html  
-│── package.json  
-│── tsconfig.json 
 
