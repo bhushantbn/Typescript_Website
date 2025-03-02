@@ -19,24 +19,24 @@ This is a simple web application that allows users to search for GitHub profiles
 
 ## Installation
 
-## 1. Clone the repository:
+#### 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/github-user-search.git
    ```
-## 2. Navigate to the project directory:
+#### 2. Navigate to the project directory:
     
     cd github-user-search
     
 
-## 3. Navigate to the project directory:
+#### 3. Navigate to the project directory:
   
     npm install
 
-## 4. Compile TypeScript:
+#### 4. Compile TypeScript:
   
     npm run build
   
-## 5. Open ```index.html``` in your browser.
+#### 5. Open ```index.html``` in your browser.
 
 ### Usage
 1. Enter a GitHub username in the search bar.
@@ -45,7 +45,7 @@ This is a simple web application that allows users to search for GitHub profiles
 4. Close the modal by clicking the X button or outside the modal.
 5. If the user is not found, a toast notification will appear.
 
-## Folder Structure
+### Folder Structure
 
 /github-user-search
 
