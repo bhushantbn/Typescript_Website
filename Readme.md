@@ -36,7 +36,7 @@ This is a simple web application that allows users to search for GitHub profiles
   
     npm run build
   
-## 5. Open `index.html` in your browser.
+## 5. Open ```index.html``` in your browser.
 
 ### Usage
 1. Enter a GitHub username in the search bar.
