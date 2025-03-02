@@ -22,8 +22,6 @@ const defaultUsers = [
     "sindresorhus",
     "kentcdodds",
     "yyx990803",
-    "mjackson",
-    "rauchg",
 ];
 // Function to create user card
 function createUserCard(user) {
@@ -43,6 +41,12 @@ function fetchUser(username) {
         try {
             const response = yield fetch(`https://api.github.com/users/${username}`);
             if (!response.ok) {
+                const errorData = yield response.json();
+                // Handle API Rate Limit Error
+                if (errorData.message.includes("API rate limit exceeded")) {
+                    showToast("GitHub API rate limit exceeded. Try again later!");
+                    throw new Error("API rate limit exceeded");
+                }
                 if (response.status === 404)
                     throw new Error("User not found");
                 throw new Error("Failed to fetch user");
@@ -50,7 +54,7 @@ function fetchUser(username) {
             return yield response.json();
         }
         catch (error) {
-            console.error(error);
+            console.error("Error fetching user:", error);
             return null;
         }
     });
@@ -63,9 +67,15 @@ function displayUser(username) {
         if (user) {
             userCard.innerHTML = createUserCard(user);
             userCard.classList.add("active");
+            // Show the user card container
+            const userCardContainer = document.querySelector(".user-card-container");
+            userCardContainer.style.display = "block";
         }
         else {
             userCard.innerHTML = `<p>User not found</p>`;
+            // Hide the user card container if no user is found
+            const userCardContainer = document.querySelector(".user-card-container");
+            userCardContainer.style.display = "none";
         }
     });
 }
@@ -89,14 +99,16 @@ function handleSearch() {
             showToast("Please enter a username!");
             return;
         }
-        // Clear previous search result
-        if (userCard) {
-            userCard.innerHTML = "";
-            userCard.classList.remove("active");
-        }
-        const user = (yield fetchUser(username));
+        // Hide the user card initially
+        userCard.style.display = "none";
+        const user = yield fetchUser(username);
         if (user) {
-            displayUser(user);
+            displayUser(username);
+            // Show the user card and scroll to it
+            userCard.style.display = "block";
+            setTimeout(() => {
+                userCard.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 300); // Delay to ensure visibility before scrolling
         }
         else {
             showToast("User not found!");
@@ -119,5 +131,5 @@ function showToast(message) {
     toast.style.display = "block";
     setTimeout(() => {
         toast.style.display = "none";
-    }, 3000); // Hide after 3 seconds
+    }, 3000);
 }
