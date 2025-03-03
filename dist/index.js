@@ -26,12 +26,12 @@ const defaultUsers = [
 // Function to create user card
 function createUserCard(user) {
     return `
-        <div class="user-card">
+        <div class="user-card" onclick="displayUser('${user.login}')">
             <img src="${user.avatar_url}" alt="${user.login}">
             <h2>${user.name || user.login}</h2>
             <p>@${user.login}</p>
             <p>Repos: ${user.public_repos} | Followers: ${user.followers}</p>
-            <a href="${user.html_url}" target="_blank">View Profile</a>
+            <a href="${user.html_url}" target="_blank" style="color: #0000EE; font-weight: bold;">View Profile</a>
         </div>
     `;
 }
@@ -45,10 +45,12 @@ function fetchUser(username) {
                 // Handle API Rate Limit Error
                 if (errorData.message.includes("API rate limit exceeded")) {
                     showToast("GitHub API rate limit exceeded. Try again later!");
-                    throw new Error("API rate limit exceeded");
+                    return null;
                 }
-                if (response.status === 404)
-                    throw new Error("User not found");
+                if (response.status === 404) {
+                    showToast("User not found!");
+                    return null;
+                }
                 throw new Error("Failed to fetch user");
             }
             return yield response.json();
@@ -59,26 +61,41 @@ function fetchUser(username) {
         }
     });
 }
-// Display searched user details
+const userModal = document.getElementById("userModal");
+const modalUserDetails = document.getElementById("modalUserDetails");
+const closeModalBtn = document.querySelector(".close-modal");
+// Show user details in a modal
 function displayUser(username) {
     return __awaiter(this, void 0, void 0, function* () {
-        userCard.innerHTML = `<p>Loading...</p>`;
         const user = yield fetchUser(username);
         if (user) {
-            userCard.innerHTML = createUserCard(user);
-            userCard.classList.add("active");
-            // Show the user card container
-            const userCardContainer = document.querySelector(".user-card-container");
-            userCardContainer.style.display = "block";
-        }
-        else {
-            userCard.innerHTML = `<p>User not found</p>`;
-            // Hide the user card container if no user is found
-            const userCardContainer = document.querySelector(".user-card-container");
-            userCardContainer.style.display = "none";
+            modalUserDetails.innerHTML = `
+      <div class="user-card">
+          <img src="${user.avatar_url}" alt="${user.login}">
+          <h2>${user.name || user.login}</h2>
+          <p>@${user.login}</p>
+          <p>Repos: ${user.public_repos} | Followers: ${user.followers}</p>
+          <a href="${user.html_url}" target="_blank" style="color: #0000EE; font-weight: bold;">View Profile</a>
+      </div>
+    `;
+            userModal.style.display = "flex";
+            // Scroll to modal smoothly
+            setTimeout(() => {
+                userModal.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 300);
         }
     });
 }
+// Close Modal Event
+closeModalBtn.addEventListener("click", () => {
+    userModal.style.display = "none";
+});
+// Close Modal on Click Outside
+window.addEventListener("click", (event) => {
+    if (event.target === userModal) {
+        userModal.style.display = "none";
+    }
+});
 // Load default users
 function loadDefaultUsers() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -99,16 +116,10 @@ function handleSearch() {
             showToast("Please enter a username!");
             return;
         }
-        // Hide the user card initially
-        userCard.style.display = "none";
+        userCard.style.display = "none"; // Hide the card initially
         const user = yield fetchUser(username);
         if (user) {
             displayUser(username);
-            // Show the user card and scroll to it
-            userCard.style.display = "block";
-            setTimeout(() => {
-                userCard.scrollIntoView({ behavior: "smooth", block: "start" });
-            }, 300); // Delay to ensure visibility before scrolling
         }
         else {
             showToast("User not found!");
@@ -123,12 +134,14 @@ searchInput.addEventListener("keypress", (e) => {
 });
 // Load default users on page load
 document.addEventListener("DOMContentLoaded", loadDefaultUsers);
+// Show Toast Notification (Centered at the Top)
 function showToast(message) {
     const toast = document.getElementById("toast");
     if (!toast)
         return;
     toast.textContent = message;
     toast.style.display = "block";
+    toast.style.top = "20px"; // Center at the top
     setTimeout(() => {
         toast.style.display = "none";
     }, 3000);

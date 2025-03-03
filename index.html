@@ -11,16 +11,30 @@
 <body>
     <div class="container">
         <h1>GitHub User Search</h1>
+
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Enter GitHub username">
             <button id="searchBtn">Search</button>
         </div>
+        
+        <!-- 🔍 Default Users List -->
         <div id="userList" class="user-list"></div>
-        <div class="user-card-container">
-            <div id="userCard"></div>
-        </div> <!-- ✅ Make sure this exists -->
-        <div id="toast" class="toast"></div>
 
+        <!-- 📝 User Card Section -->
+        <div class="user-card-container" id="userCardContainer" style="display: none;">
+            <div id="userCard"></div>
+        </div>
+
+        <!-- ✅ Toast Notification (Centered) -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <!-- ✅ Modal Popup for User Details -->
+    <div id="userModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalUserDetails"></div>
+        </div>
     </div>
 
     <script src="dist/index.js"></script>

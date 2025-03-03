@@ -159,6 +159,22 @@ h1 {
     /* Added space between user list and user card */
 }
 
+/* View Profile Link */
+.user-card a {
+    color: #ff477e;
+    /* Standard blue link color */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.user-card a:hover {
+    color: #ff477e;
+    /* Slightly darker blue on hover */
+    text-decoration: underline;
+}
+
+
 /* Animations */
 @keyframes fadeInUp {
     from {
@@ -175,7 +191,8 @@ h1 {
 /* Toast Message */
 .toast {
     position: fixed;
-    top: 10px;  /* Adjusted for proper positioning */
+    top: 10px;
+    /* Adjusted for proper positioning */
     left: 50%;
     transform: translateX(-50%);
     background-color: #ff4d4d;
@@ -186,7 +203,8 @@ h1 {
     font-weight: bold;
     text-align: center;
     display: none;
-    z-index: 9999; /* Ensure it stays on top */
+    z-index: 9999;
+    /* Ensure it stays on top */
     animation: fadeInOut 3s ease-in-out;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     min-width: 250px;
@@ -195,8 +213,85 @@ h1 {
 
 /* Animation for fade in and out */
 @keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, -20px); }
-    10% { opacity: 1; transform: translate(-50%, 0); }
-    90% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    90% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🔹 Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 🔹 Modal Content */
+.modal-content {
+    background: #1e1e2e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    color: white;
+}
+
+/* 🔥 Close Button (Fix Visibility & Size) */
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    /* 🔹 Larger icon */
+    font-weight: bold;
+    color: white;
+    /* 🔹 Ensure contrast */
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.close-modal:hover {
+    color: #ff477e;
+    /* 🔥 Highlight on hover */
 }
